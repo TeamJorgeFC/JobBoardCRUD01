@@ -2284,6 +2284,8 @@
     <Content Include="Content\sweatAlert\src\variables.scss" />
     <Content Include="Content\waitMe-gh-pages\LICENSE.md" />
     <Content Include="Content\waitMe-gh-pages\README.md" />
+    <Content Include="Models\JobBoardCRUB_DB.db" />
+    <Content Include="Models\JobBoardCRUB_DB.db-journal" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -2312,7 +2314,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
     <Folder Include="Views\Job\" />
   </ItemGroup>
   <ItemGroup>
