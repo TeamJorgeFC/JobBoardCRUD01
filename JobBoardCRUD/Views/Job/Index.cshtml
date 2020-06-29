@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="principalDiv"></div>
+
+@section scripts{
+    <script>
+    $(document).ready(function () {
+        OpenJobList();
+    });
+
+    function OpenJobList() {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("_JobList", "Job")',
+                    data: {},
+                success: function (data) {
+                    $('#principalDiv').html(data);
+                    //DefineDataTable();
+                    //$("#principalDiv").waitMe("hide");
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    notifyeventError("Error", errorThrown + " Status: " + XMLHttpRequest.status, "danger");
+                }
+            })
+        }
+    </script>
+}
+

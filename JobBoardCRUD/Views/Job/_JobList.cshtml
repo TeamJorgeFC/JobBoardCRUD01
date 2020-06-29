@@ -1,0 +1,50 @@
+﻿@model List<JobBoardCRUD.CustomClass.Job>
+@{
+    Layout = null;
+}
+
+    <table id="tblCity" class="table table-bordered table-hover table-light js-basic-example table-of-contents">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Tittle</th>
+                <th>Created at </th>
+                <th>Expired at</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody class="table-condensed">
+
+            @try
+            {
+                var count = 1;
+                for (int i = 0; i < Model.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(m => m[i].JobID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => m[i].JobTittle)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => m[i].JobCreatedAt)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => m[i].JobExpiredAt)
+                        </td>
+                        
+                        <td class="text-center">
+                            <button type="button" class="btn btn-sm bg-info" onclick="openAddEditJob(@Model[i].JobID)" title="Edit job" id="btnEditJob"><i class="fa fa-pen"></i> Edit</button>
+                            @*<button type="button" class="btn btn-sm bg-info" onclick="openCityDetail(@Model[i].cityID)" id="btnCityDetail" title="City detail"><i class="fa fa-list-alt"></i> Detail</button>*@
+                        </td>
+                    </tr>
+                    count++;
+                }
+            }
+            catch
+            {
+
+            }
+        </tbody>
+    </table>
