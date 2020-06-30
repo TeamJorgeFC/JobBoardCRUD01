@@ -1,26 +1,48 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Job";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="row m-0">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="body block-header">
-                <div class="row m-0">
-                    <div class="col-lg-6 col-md-8 col-sm-12">
-                        <h2>Job List</h2>
-                    </div>
-                    <div class="col-lg-6 col-md-4 col-sm-12 text-right">
-                        <button class="btn btn-primary btn-round" onclick="openAddEditJob(0);" id="btnAddJob"><i class="fa fa-plus"></i> Add Job</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Job</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Job</a></li>
+                    <li class="breadcrumb-item active">Job List</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
 </div>
 
-<div id="principalDiv" class="mt-2"></div>
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-header ui-sortable-handle" style="cursor: move;">
+            <h3 class="card-title">
+                <i class="fas fa-list mr-1"></i>
+                Job List
+            </h3>
+            <div class="card-tools">
+                <ul class="nav nav-pills ml-auto">
+                    <li class="nav-item">
+                        @*<a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a>*@
+                        <button class="btn btn-primary btn-round" onclick="openAddEditJob(0);" id="btnAddJob"><i class="fa fa-plus"></i> Add Job</button>
+                    </li>
+                </ul>
+            </div>
+        </div><!-- /.card-header -->
+        <div class="card-body">
+            <div class="tab-content p-0">
+                <div id="principalDiv" class="mt-2"></div>
+            </div>
+        </div><!-- /.card-body -->
+    </div>
+</div>
 
 
 @section modals{
@@ -57,7 +79,7 @@
                     data: {},
                 success: function (data) {
                     $('#principalDiv').html(data);
-                    $('#tblJobs').DataTable();             
+                    $('#tblJobs').DataTable();
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     notifyeventError("Error", errorThrown + " Status: " + XMLHttpRequest.status, "danger");
@@ -163,7 +185,7 @@
             $('.datepicker1').datepicker({
                 format: 'mm/dd/yyyy', autoHide: true, zIndex: '2048'
             });
-        } 
+        }
     </script>
 }
 
