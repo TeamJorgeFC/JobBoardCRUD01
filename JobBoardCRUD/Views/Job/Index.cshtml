@@ -57,8 +57,7 @@
                     data: {},
                 success: function (data) {
                     $('#principalDiv').html(data);
-                    $('#tblJobs').DataTable();
-                    //$("#principalDiv").waitMe("hide");
+                    $('#tblJobs').DataTable();             
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     notifyeventError("Error", errorThrown + " Status: " + XMLHttpRequest.status, "danger");
@@ -74,6 +73,7 @@
                 success: function (response) {
                     $('#dinamicSmallModalContent').html(response);
                     $('#dinamicSmallModal').modal('show');
+                    attachPicker();
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     notifyeventError("Error", errorThrown + " Status: " + XMLHttpRequest.status, "danger");
@@ -103,7 +103,7 @@
                             } else if (data == 2) {
                                 notifyevent('info', 'Job was updated', 'info');
                             } else {
-                                notifyevent('info', 'Something wrong happend', 'info');
+                                notifyevent('Error', 'Something wrong happend', 'danger');
                             }
                             OpenJobList();
                             $('#dinamicSmallModal').modal('hide');
@@ -122,6 +122,48 @@
                 }
             }
         }
+
+        function DeleteJob(id) {
+            Swal.fire({
+                title: 'Are you sure to delete the job?',
+                text: "",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("DeletedJob", "Job")',
+                        data: { 'id': id },
+                        success: function (result) {
+                            var data = result;
+                            if (data == 1) {
+                                notifyevent('success', 'Job was deleted', 'success');
+                            } else if (data == 2) {
+                                notifyevent('Error', 'No data found', 'danger');
+                            } else {
+                                notifyevent('Error', 'Something wrong happend', 'danger');
+                            }
+                            OpenJobList();
+                            $('#dinamicSmallModal').modal('hide');
+                        }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            notifyeventError("Error", errorThrown + " Status: " + XMLHttpRequest.status, "danger");
+                        }
+                    });
+                    swal.close();
+                }
+            })
+        }
+
+        function attachPicker() {
+            $('.datepicker1').inputmask('mm/dd/yyyy', { placeholder: '__/__/____' });
+            $('.datepicker1').datepicker({
+                format: 'mm/dd/yyyy', autoHide: true, zIndex: '2048'
+            });
+        } 
     </script>
 }
 

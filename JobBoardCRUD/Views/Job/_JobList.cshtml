@@ -9,6 +9,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Tittle</th>
+                        <th>Description</th>
                         <th>Created at </th>
                         <th>Expired at</th>
                         <th>Action</th>
@@ -21,25 +22,29 @@
                         var count = 1;
                         for (int i = 0; i < Model.Count; i++)
                         {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(m => m[i].JobID)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(m => m[i].JobTittle)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(m => m[i].JobCreatedAt)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(m => m[i].JobExpiredAt)
-                                </td>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(m => m[i].JobID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => m[i].JobTittle)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => m[i].JobDescription)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => m[i].JobCreatedAt)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(m => m[i].JobExpiredAt)
+                        </td>
 
-                                <td class="text-center">
-                                    <button type="button" class="btn btn-sm bg-info" onclick="openAddEditJob(@Model[i].JobID)" title="Edit job" id="btnEditJob"><i class="fa fa-pen"></i> Edit</button>
-                                    @*<button type="button" class="btn btn-sm bg-info" onclick="openCityDetail(@Model[i].cityID)" id="btnCityDetail" title="City detail"><i class="fa fa-list-alt"></i> Detail</button>*@
-                                </td>
-                            </tr>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-sm bg-info" onclick="openAddEditJob(@Model[i].JobID)" title="Edit job" id="btnEditJob"><i class="fa fa-pen"></i> Edit</button>
+                            <button type="button" class="btn btn-sm bg-info" onclick="DeleteJob(@Model[i].JobID)" title="Delete job" id="btnDeletedJob"><i class="fa fa-trash"></i> Delete</button>
+                            @*<button type="button" class="btn btn-sm bg-info" onclick="openCityDetail(@Model[i].cityID)" id="btnCityDetail" title="City detail"><i class="fa fa-list-alt"></i> Detail</button>*@
+                        </td>
+                    </tr>
                             count++;
                         }
                     }
