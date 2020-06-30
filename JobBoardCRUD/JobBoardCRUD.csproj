@@ -3238,7 +3238,6 @@
     <Content Include="Content\waitMe-gh-pages\LICENSE.md" />
     <Content Include="Content\waitMe-gh-pages\README.md" />
     <Content Include="Models\JobBoardCRUB_DB.db" />
-    <Content Include="Models\JobBoardCRUB_DB.db-journal" />
     <Content Include="Content\plugins\bootstrap\js\bootstrap.bundle.js.map" />
     <Content Include="Content\plugins\bootstrap\js\bootstrap.bundle.min.js.map" />
     <Content Include="Content\plugins\bootstrap\js\bootstrap.js.map" />
