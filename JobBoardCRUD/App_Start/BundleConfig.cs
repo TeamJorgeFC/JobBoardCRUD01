@@ -23,8 +23,14 @@ namespace JobBoardCRUD
                       "~/Scripts/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/plugins/fontawesome-free/css/all.min.css",
+                      "~/Content/plugins/toastr/toastr.min.css",
+                      "~/Content/dist/css/adminlte.min.css",
+                      "~/Content/fontawesome-free-5.13.0-web/css/all.css",
+                      "~/Content/DataTable/datatables.min.css",
+                      "~/Content/bootstrap-4.3.1-dist/css/bootstrap.min.css",
+                      "~/Content/sweatAlert/dist/sweetalert2.all.min.js",
+                      "~/Content/datepicker-master/dist/datepicker.css"));
         }
     }
 }
