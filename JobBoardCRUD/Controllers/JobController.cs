@@ -11,10 +11,10 @@ namespace JobBoardCRUD.Controllers
 {
     public class JobController : Controller
     {
-        SQLiteConnection con;
-        SQLiteDataAdapter da;
-        SQLiteCommand cmd;
-        DataSet ds;
+        //SQLiteConnection con;
+        //SQLiteDataAdapter da;
+        //SQLiteCommand cmd;
+        //DataSet ds;
         public List<Job> Jobs { get; set; }
 
         // GET: Job
@@ -59,57 +59,84 @@ namespace JobBoardCRUD.Controllers
                     Jobs = listOfJob;
                 }
             }
-            
-            //string cs = "Data Source=" + Environment.CurrentDirectory + "\\Models\\JobBoardCRUB_DB.db";
-            //using (var connection = new SQLiteConnection(cs))
-            //{
-
-            //    var listOfJob = new List<Job>();
-            //    var stm = "SELECT * FROM tblJob";
-
-            //    var command = new SQLiteCommand(stm, connection);
-            //    try
-            //    {
-
-            //        var reader = command.ExecuteReader();
-
-            //        while (reader.Read())
-            //        {
-
-            //            listOfJob.Add(new Job
-            //            {
-            //                JobID = int.Parse(reader["JobID"].ToString()),
-            //                JobTittle = reader["JobTittle"].ToString(),
-            //                JobDescription = reader["JobDescription"].ToString(),
-            //                JobCreatedAt = reader["JobCreatedAt"].ToString(),
-            //                JobExpiredAt = reader["JobExpiredAt"].ToString(),
-
-            //            });
-            //        }
-            //        reader.Close();
-            //        Jobs = listOfJob;
-            //    }
-
-            //    catch (Exception ex)
-            //    {
-            //        throw;
-            //    }
-
-            //}
-
         }
 
-        void GetList()
+        public ActionResult _AddEditJob(int id)
         {
-            con = new SQLiteConnection("Data Source=" + Environment.CurrentDirectory + "\\Models\\JobBoardCRUB_DB.db; Version=3;");
-            da = new SQLiteDataAdapter("Select *From tblJob", con);
-            ds = new DataSet();
-            con.Open();
-            //da.Fill(ds, "Student");
-            //dataGridView1.DataSource = ds.Tables["Student"];
-            con.Close();
+            Job JobResult = new Job();
+            if (id == 0)
+            {
+                JobResult.JobID = 0;
+            }
+            else
+            {
+                var connectionString = "data source=C:/Users/Jorge/source/repos/JobBoardCRUD01/JobBoardCRUD01/JobBoardCRUD/Models/JobBoardCRUB_DB.db;version=3";
 
+                using (var conn = new SQLiteConnection(connectionString))
+                using (var cmd = new SQLiteCommand("SELECT * FROM tblJob WHERE JobID = " + id, conn))
+                {
+                    conn.Open();
+                    using (var coreReader = cmd.ExecuteReader())
+                    {
+                        var reader = coreReader;
+                        //coreReader.Read();
+                        while (coreReader.Read())
+                        {
+                            JobResult.JobID = int.Parse(reader["JobID"].ToString());
+                            JobResult.JobTittle = reader["JobTittle"].ToString();
+                            JobResult.JobDescription = reader["JobDescription"].ToString();
+                            JobResult.JobCreatedAt = reader["JobCreatedAt"].ToString();
+                            JobResult.JobExpiredAt = reader["JobExpiredAt"].ToString();
+                        }
+                        reader.Close();
+                    }
+                }
+            }
+            return PartialView("_AddEditJob", JobResult);
         }
+
+        public JsonResult AddEditJob(int? JobID, string JobTittle, string JobDescription, string JobCreatedAt, string JobExpiredAt)
+        {
+            int result = 0;
+            try
+            {
+                if (JobID > 0)
+                {
+                    result = 2;
+                    //UPDATE
+                    string connection = @"data source=C:/Users/Jorge/source/repos/JobBoardCRUD01/JobBoardCRUD01/JobBoardCRUD/Models/JobBoardCRUB_DB.db;version=3";
+                    SQLiteConnection sqlite_conn = new SQLiteConnection(connection);
+                    string stringQuery = "update tblJob set JobTittle = '" + JobTittle + "',JobDescription = '"+ JobDescription + "', JobCreatedAt = '"+ JobCreatedAt + "',JobExpiredAt = '"+ JobExpiredAt + "' where JobID = "+JobID;//Update job
+                    sqlite_conn.Open();//Open the SqliteConnection
+                    var SqliteCmd = new SQLiteCommand();//Initialize the SqliteCommand
+                    SqliteCmd = sqlite_conn.CreateCommand();//Create the SqliteCommand
+                    SqliteCmd.CommandText = stringQuery;//Assigning the query to CommandText
+                    SqliteCmd.ExecuteNonQuery();//Execute the SqliteCommand
+                    sqlite_conn.Close();//Close the SqliteConnection
+                }
+                else
+                {
+                    result = 1;
+                    //INSERT 
+                    string connection = @"data source=C:/Users/Jorge/source/repos/JobBoardCRUD01/JobBoardCRUD01/JobBoardCRUD/Models/JobBoardCRUB_DB.db;version=3";
+                    SQLiteConnection sqlite_conn = new SQLiteConnection(connection);
+                    string stringQuery = "insert into tblJob(JobTittle,JobDescription,JobCreatedAt,JobExpiredAt) values ('" + JobTittle + "','" + JobDescription + "','" + JobCreatedAt + "','" + JobExpiredAt + "')";//insert job
+                    sqlite_conn.Open();//Open the SqliteConnection
+                    var SqliteCmd = new SQLiteCommand();//Initialize the SqliteCommand
+                    SqliteCmd = sqlite_conn.CreateCommand();//Create the SqliteCommand
+                    SqliteCmd.CommandText = stringQuery;//Assigning the query to CommandText
+                    SqliteCmd.ExecuteNonQuery();//Execute the SqliteCommand
+                    sqlite_conn.Close();//Close the SqliteConnection
+
+                }
+            }
+            catch (Exception ex)
+            {
+                result = -1;
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
 
         //private void button1_Click_1(object sender, EventArgs e) //Insert
         //{

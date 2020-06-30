@@ -3,24 +3,46 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <div class="row m-0">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="body block-header">
-                    <div class="row m-0">
-                        <div class="col-lg-6 col-md-8 col-sm-12">
-                            <h2>Job List</h2>
-                        </div>
-                        <div class="col-lg-6 col-md-4 col-sm-12 text-right">
-                            <button class="btn btn-primary btn-round" onclick="openAddEditJob(0);" id="btnAddJob"><i class="fa fa-plus"></i> Add Job</button>
-                        </div>
+<div class="row m-0">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="body block-header">
+                <div class="row m-0">
+                    <div class="col-lg-6 col-md-8 col-sm-12">
+                        <h2>Job List</h2>
+                    </div>
+                    <div class="col-lg-6 col-md-4 col-sm-12 text-right">
+                        <button class="btn btn-primary btn-round" onclick="openAddEditJob(0);" id="btnAddJob"><i class="fa fa-plus"></i> Add Job</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <div id="principalDiv" class="mt-2"></div>
+<div id="principalDiv" class="mt-2"></div>
+
+
+@section modals{
+    <!-- dinamic small modal -->
+    <div class="modal fade" id="dinamicSmallModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" id="dinamicSmallModalContent">
+
+            </div>
+        </div>
+    </div>
+    <!-- /dinamic small modal  -->
+    <!-- dinamic large modal -->
+    <div class="modal fade" id="dinamicLargeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" id="dinamicLargeModalContent">
+
+            </div>
+        </div>
+    </div>
+    <!-- /dinamic large modal -->
+}
 
 @section scripts{
     <script>
@@ -43,7 +65,63 @@
                 }
             })
         }
-        
+
+        function openAddEditJob(JobID) {
+            $.ajax({
+                type: "Get",
+                url: '@Url.Action("_AddEditJob", "Job")',
+                data: { id: JobID},
+                success: function (response) {
+                    $('#dinamicSmallModalContent').html(response);
+                    $('#dinamicSmallModal').modal('show');
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    notifyeventError("Error", errorThrown + " Status: " + XMLHttpRequest.status, "danger");
+                }
+            })
+        }
+
+        function SaveJob(JobID) {
+            var isvalidate = $("#frmInsertUpdateJob")[0].checkValidity();
+            if (isvalidate) {
+                var postData = {
+                    "JobID": JobID,
+                    "JobTittle": $("#txtJobTittle").val(),
+                    "JobDescription": $("#txtJobDescription").val(),
+                    "JobCreatedAt": $("#txtJobCreatedAt").val(),
+                    "JobExpiredAt": $("#txtJobExpiredAt").val()
+                };
+                try {
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("AddEditJob", "Job")',
+                        data: postData,
+                        success: function (result) {
+                            var data = result;
+                            if (data == 1) {
+                                notifyevent('success', 'Job was created', 'success');
+                            } else if (data == 2) {
+                                notifyevent('info', 'Job was updated', 'info');
+                            } else {
+                                notifyevent('info', 'Something wrong happend', 'info');
+                            }
+                            OpenJobList();
+                            $('#dinamicSmallModal').modal('hide');
+                        }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            notifyeventError("Error", errorThrown + " Status: " + XMLHttpRequest.status, "danger");
+                        }
+                    });
+                }
+                catch (ex) {
+                }
+            }
+            else {
+                var $myForm = $('#frmInsertUpdateJob');
+                if (!$myForm[0].checkValidity()) {
+                    $myForm.find(':submit').click();
+                }
+            }
+        }
     </script>
 }
 

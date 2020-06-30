@@ -1,0 +1,74 @@
+﻿@model JobBoardCRUD.CustomClass.Job
+@{
+    Layout = null;
+    ViewBag.Title = "ISP :: Promesa WEB :: Add/Edit Region";
+}
+@Html.AntiForgeryToken()
+@Html.ValidationSummary(true)
+
+<div class="modal-header">
+    @{
+        if (Model.JobID > 0)
+        {
+            <h5 class="modal-title" id="exampleModalLabel">Edit Job</h5>
+        }
+        else
+        {
+            <h5 class="modal-title" id="exampleModalLabel">Add Job</h5>
+        }
+    }
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div id="JobDiv" class="col-lg-12 col-md-12 col-sm-12">
+            @using (Html.BeginForm("", "", FormMethod.Post, new { @id = "frmInsertUpdateJob" }))
+            {
+                @Html.HiddenFor(m => m.JobID,  new {@id="hiddenJobID" })
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-group">
+                            <label>Tittle</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-heading"></i></span>
+                                </div>
+                                @Html.TextBoxFor(m => m.JobTittle, null, new { @class = "form-control", @placeholder = "Job tittle", @id = "txtJobTittle", required = true, tabindex = "0", autofocus = true })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Created At</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                </div>
+                                @Html.TextBoxFor(m => m.JobCreatedAt, "{0:MM/dd/yyyy}", new { @class = "form-control", @id = "txtJobCreatedAt", @type = "text", autcomplete = "false", tabindex = "0", required = true })
+                                @*<input type="text" class="form-control" data-inputmask-alias="datetime" data-inputmask-inputformat="dd/mm/yyyy" data-mask="" im-insert="false">*@
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Expired At</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                </div>
+                                @Html.TextBoxFor(m => m.JobExpiredAt, "{0:MM/dd/yyyy}", new { @class = "form-control date datepicker1", @id = "txtJobExpiredAt", @type = "text", autcomplete = "false", tabindex = "0", required = true })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            @Html.TextAreaFor(m => m.JobDescription, new { @class = "form-control no-resize", @placeholder = "Please type an address...", @rows = "3", @id = "txtJobDescription", tabindex = "0", style = "width:100%" })
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button hidden type="submit"></button>
+                    <button type="button" class="btn btn-primary btn-round waves-effect" onclick="SaveJob(@Model.JobID)" id="btnInsertUpdateJob"><i class="far fa-save"></i> Save</button>
+                    <button type="button" class="btn btn-danger btn-round waves-effect" id="btnCloseInsertUpdateJob" data-dismiss="modal"><i class="fa fa-ban"></i> Cancel</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
