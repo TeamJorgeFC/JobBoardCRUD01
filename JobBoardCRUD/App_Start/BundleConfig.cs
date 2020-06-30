@@ -28,8 +28,7 @@ namespace JobBoardCRUD
                       "~/Content/dist/css/adminlte.min.css",
                       "~/Content/fontawesome-free-5.13.0-web/css/all.css",
                       "~/Content/DataTable/datatables.min.css",
-                      "~/Content/bootstrap-4.3.1-dist/css/bootstrap.min.css",
-                      "~/Content/sweatAlert/dist/sweetalert2.all.min.js",
+                      "~/Content/bootstrap-4.3.1-dist/css/bootstrap.min.css",                      
                       "~/Content/datepicker-master/dist/datepicker.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/mainjs").Include(
@@ -42,7 +41,8 @@ namespace JobBoardCRUD
                         "~/Content/DataTable/datatables.min.js",
                         "~/Content/bootstrap-notify-master/bootstrap-notify.min.js",
                         "~/Content/datepicker-master/dist/datepicker.js",
-                        "~/Content/jquery-inputmask/jquery.inputmask.bundle.js"));
+                        "~/Content/jquery-inputmask/jquery.inputmask.bundle.js",
+                        "~/Content/sweatAlert/dist/sweetalert2.all.min.js"));
         }
     }
 }
